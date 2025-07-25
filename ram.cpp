@@ -13,7 +13,7 @@ public:
         data = d;
     }
 
-    void clear_data(void){
+    void reset_data(void){
         data = 0;
     }
 };
@@ -23,18 +23,31 @@ class RandomAccessMemory{
 private:
     RAMCell ramcell[BIT16_SIZE];
 
+    void init_ram(void){
+        for(int i = 0; i < BIT16_SIZE; i++){
+            ramcell[i].reset_data();
+        }
+    }
+
 public:
     RandomAccessMemory(){
     // Constructor 
-        for(int i = 0; i < )
-
+        init_ram();
     }
 
+    uint16_t get_ramcell(uint16_t cellnum){
+        return ramcell[cellnum].get_data();
+    };
 
+    void update_ramcell(uint16_t cellnum, uint16_t data){
+        ramcell[cellnum].update_data(data);
+    }
 
+    void reset_ramcell(uint16_t cellnum){
+        ramcell[cellnum].update_data(0);
+    }
 
+    
 
-
-
-}
+};
 

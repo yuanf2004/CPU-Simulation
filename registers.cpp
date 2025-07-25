@@ -14,7 +14,7 @@ public:
         data = d;
     }
 
-    void clear_data(void){
+    void reset_data(void){
         data = 0;
     }
 };
@@ -33,7 +33,7 @@ public:
         data = id;
     }
 
-    void clear_data(void){
+    void reset_data(void){
         data = 0;
     }   
 };
@@ -54,7 +54,7 @@ class ProgramCounter{
             address = a;
         }
 
-        void clear_address(void){
+        void reset_address(void){
             address = 0;
         }
 };
@@ -64,7 +64,6 @@ class Registers{
 private:
     // Array to hold all general purpose registers 
     GeneralPurposeRegister gpr[32];
-    // Array to hold all instruction registers
     InstructionRegister ir;
     ProgramCounter pc;
 
@@ -95,14 +94,14 @@ public:
 
     void clear_all_general_purpose_registers(void){
     // Clear all general purpose register values
-        for(int i = 0; i < 65536; i++){
-            gpr[i].clear_data();
+        for(int i = 0; i < 32; i++){
+            gpr[i].reset_data();
         }
     };
 
-    void clear_instruction_regsiter(void){
+    void clear_instruction_register(void){
     // Clear instruction register
-        ir.clear_data();
+        ir.reset_data();
     };
 
     void clear_program_counter(uint16_t addr){
