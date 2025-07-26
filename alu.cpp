@@ -3,131 +3,92 @@
 class ArithmeticLogicUnit{
     
     private:
+        Registers *r;
+        RandomAccessMemory *ram;
 
     public:
-    ArithmeticLogicUnit(){
+    ArithmeticLogicUnit(Registers *r, RandomAccessMemory *ram){
         // Constructor
+        this->r = r;
+        this->ram = ram;
     };
 
-    void alu_load(
-        GeneralPurposeRegister &rd,
-        RandomAccessMemory &ram,
-        uint8_t mem_location
-    ){
-    // Load from memory into register
-    // Instruction Formatting:
-    // 4 bits opcode, 4 bits destination register, 8 bits memory location
-        rd.update_data(ram.get_ramcell(mem_location));
+    void alu_load(uint16_t i){
+        // Register Destination - 11:8
+        // Memory Location - 7:0
+        uint16_t regdest = (i >> 8) & 0xF;
+        uint16_t memloc = i & 0xFF;
+
+        uint16_t ram_data = ram->get_ramcell(memloc);
+        r->update_general_purpose_register(regdest, ram_data);
     };
 
-    void alu_store(
-        GeneralPurposeRegister &a,
-        RandomAccessMemory &ram,
-        uint8_t mem_location
-    ){
-    // Store data from register into memory
-    // Instruction Formatting:
-    // 4 bits opcode, 4 bits destination register, 8 bits memory location
-        ram.update_ramcell(mem_location, a.get_data());
+    void alu_store(uint16_t i){
+        // Register Source - 11:8
+        // Memory Location - 7:0
+        uint16_t regsrc = (i >> 8) & 0xF;
+        uint16_t memloc = i & 0xFF;
+
+        uint16_t reg_data = r->get_data_general_purpose_register(regsrc);
+        ram->update_ramcell(memloc, reg_data);    
     };
 
-    void alu_add(
-        GeneralPurposeRegister &a, 
-        GeneralPurposeRegister &b, 
-        GeneralPurposeRegister &rd
-    ){
-    // Opcode 0000
-        rd.update_data(a.get_data() + b.get_data());
+    void alu_add(uint16_t i){
+        // Register Destination - 11:8
+        // Register A - 7:4
+        // Register B - 3:0
+
+        uint16_t regdest = (i >> 8) & 0xF; 
+        uint16_t rega = (i >> 4) & 0xF;
+        uint16_t regb = i & 0xF;
+    
+        uint16_t rega_data = r->get_data_general_purpose_register(rega);
+        uint16_t regb_data = r->get_data_general_purpose_register(regb);
+
+        r->update_general_purpose_register(regdest, (rega_data + rega_data));
     };
 
-    void alu_sub(
-        GeneralPurposeRegister &a, 
-        GeneralPurposeRegister &b, 
-        GeneralPurposeRegister &rd
-    ){
-    // Opcode 0001
-        rd.update_data(a.get_data() - b.get_data());
+    void alu_sub(uint16_t i){
+        // Register Destination - 11:8
+        // Register A - 7:4
+        // Register B - 3:0
+
+        uint16_t regdest = (i >> 8) & 0xF; 
+        uint16_t rega = (i >> 4) & 0xF;
+        uint16_t regb = i & 0xF;
+    
+        uint16_t rega_data = r->get_data_general_purpose_register(rega);
+        uint16_t regb_data = r->get_data_general_purpose_register(regb);
+
+        r->update_general_purpose_register(regdest, (rega_data + rega_data));
     };
 
-    void alu_and(
-        GeneralPurposeRegister &a, 
-        GeneralPurposeRegister &b, 
-        GeneralPurposeRegister &rd
-    ){
-    // Opcode 0010
-        rd.update_data(a.get_data() & b.get_data());
-    };
+    void alu_and(){};
 
-    void alu_or(
-        GeneralPurposeRegister &a, 
-        GeneralPurposeRegister &b, 
-        GeneralPurposeRegister &rd
-    ){
-    // Opcode 0011
-        rd.update_data(a.get_data() | b.get_data());
-    };
 
-    void alu_xor(
-        GeneralPurposeRegister &a, 
-        GeneralPurposeRegister &b, 
-        GeneralPurposeRegister &rd
-    ){
-    // Opcode 0100
-        rd.update_data(a.get_data() ^ b.get_data());
-    };
+    void alu_or(){};
 
-    void alu_not(
-        GeneralPurposeRegister &a, 
-        GeneralPurposeRegister &rd
-    ){
-    // Opcode 0101
-        rd.update_data(~(a.get_data()));
-    };
+    void alu_xor(){};
+
+    void alu_not(){};
 
     // To be filled out later
     void alu_jmp(){
-    // Opcode 0110
     };
 
     // To be filled out later
     void alu_jz(){
-    // Opcode 0111
     };
 
-    void alu_addi(
-        GeneralPurposeRegister &a,
-        uint8_t immb,
-        GeneralPurposeRegister &rd
-    ){
-    // Opcode 1000
-        rd.update_data(a.get_data() + immb);
-    }
+    void alu_addi(){};
 
-    void alu_subi(
-        GeneralPurposeRegister &a,
-        uint8_t immb,
-        GeneralPurposeRegister &rd
-    ){
-    // Opcode 1001
-        rd.update_data(a.get_data() - immb);
-    }
+    void alu_subi(){};
 
-    void alu_andi(
-        GeneralPurposeRegister &a,
-        uint8_t immb,
-        GeneralPurposeRegister &rd
-    ){
-    // Opcode 1010
-        rd.update_data(a.get_data() & immb);
-    }
+    void alu_andi(){};
 
-    void alu_ori(
-        GeneralPurposeRegister &a,
-        uint8_t immb,
-        GeneralPurposeRegister &rd
-    ){
-        rd.update_data(a.get_data() | immb);
-    }
+    void alu_ori(){};
+
+    void alu_xori(){};
 
 
 

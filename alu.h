@@ -5,3 +5,7 @@
 #include "stdint.h"
 #include "registers.h"
 #include "ram.h"
+
+class ArithmeticLogicUnit{
+
+};

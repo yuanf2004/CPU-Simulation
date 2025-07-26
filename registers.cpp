@@ -92,6 +92,15 @@ public:
         init_program_counter();
     };
 
+    uint16_t get_data_general_purpose_register(uint16_t reg){
+        return gpr[reg].get_data();
+    };
+
+    void update_general_purpose_register(uint16_t reg, uint16_t data){
+    // Update register i with data
+        gpr[reg].update_data(data);
+    };
+
     void clear_all_general_purpose_registers(void){
     // Clear all general purpose register values
         for(int i = 0; i < 32; i++){

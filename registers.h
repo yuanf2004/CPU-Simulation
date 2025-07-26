@@ -44,6 +44,8 @@ private:
 
 public:
     Registers(void);
+    uint16_t get_data_general_purpose_register(uint16_t reg);
+    void update_general_purpose_register(uint16_t reg, uint16_t data);
     void clear_all_general_purpose_registers(void);
     void clear_instruction_register(void);
     void clear_program_counter(uint16_t addr);
