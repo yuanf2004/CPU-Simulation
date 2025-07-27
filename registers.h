@@ -1,6 +1,5 @@
 #ifndef REGISTERS_H
 #define REGISTERS_H
-#endif
 
 #include <stdint.h>
 
@@ -50,3 +49,5 @@ public:
     void clear_instruction_register(void);
     void clear_program_counter(uint16_t addr);
 };
+
+#endif
