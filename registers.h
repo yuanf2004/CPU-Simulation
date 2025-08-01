@@ -37,9 +37,22 @@ private:
     InstructionRegister ir;
     ProgramCounter pc;
 
-    void init_general_purpose_registers(void);
-    void init_instruction_register(void);
-    void init_program_counter(void);
+    void init_general_purpose_registers(void){
+    // On instantiation, populate general purpose registers with 0 
+        for(int i = 0; i < 32; i++){
+            gpr[i].update_data(0);
+        }
+    };
+    
+    void init_instruction_register(void){
+    // On instantiation, populate instruction registers with 0
+        ir.update_data(0);
+    };
+
+    void init_program_counter(void){
+    // On instantiation, initialize program counter to be 0
+        pc.set_address(0);
+    };
 
 public:
     Registers(void);

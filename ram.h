@@ -1,6 +1,5 @@
 #ifndef RAM_H
 #define RAM_H
-#endif
 
 #include <stdint.h>
 
@@ -18,7 +17,13 @@ public:
 class RandomAccessMemory{
 private:
     RAMCell ramcell[BIT16_SIZE];
-    void init_ram(void);
+
+    void init_ram(void){
+        for(int i = 0; i < BIT16_SIZE; i++){
+            ramcell[i].reset_data();
+        }
+    }
+
 public:
     RandomAccessMemory();
     uint16_t get_ramcell(uint16_t cellnum);
@@ -26,3 +31,4 @@ public:
     void reset_ramcell(uint16_t cellnum);
 };
 
+#endif

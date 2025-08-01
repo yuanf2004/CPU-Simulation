@@ -1,6 +1,5 @@
 #ifndef ALU_H
 #define ALU_H
-#endif
 
 #include "stdint.h"
 #include "registers.h"
@@ -29,3 +28,5 @@ public:
     void alu_jz();
     void alu_jnz();
 };
+
+#endif

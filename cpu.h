@@ -1,12 +1,11 @@
 #ifndef CPU_H
 #define CPU_H
-#endif
 
 #include "stdint.h"
 #include "ram.h"
 #include "registers.h"
 #include "alu.h"
-#include "cu.h"
+#include "cu.h" 
 
 class CentralProcessingUnit{
 private:
@@ -20,3 +19,5 @@ public:
     CentralProcessingUnit();
     void run();
 };
+
+#endif
