@@ -1,5 +1,4 @@
 #include "cpu.h"
-#include <iostream>
 
     //Constructor
     CentralProcessingUnit::CentralProcessingUnit()
@@ -9,15 +8,41 @@
     void CentralProcessingUnit::run(){
         // Run the CPU by giving it inputs
         
+        bool decode_ok = false;
         uint16_t user_i;
+        std::string buffer_i;
         
         while(1){
             std::cout << "Enter your instruction: \n";
-            std::cin >> user_i;
-            cu.decode_instruction((uint16_t) user_i);
-            std::cout << "Register 12 currently holds: ";
-            std::cout << r.get_data_general_purpose_register(12) << std::endl;
+            std::cin >> buffer_i;
+            decode_ok = str_to_instr(&buffer_i, &user_i);
+            if(decode_ok){
+                cu.decode_instruction((uint16_t) user_i);
+                std::cout << "Register 12 currently holds: ";
+                std::cout << r.get_data_general_purpose_register(12) << std::endl;
+            };
+            decode_ok = true;
         }
     };
 
+    bool CentralProcessingUnit::str_to_instr(std::string *s, uint16_t *ui){
+        /* 
+        Helper function to convert user input as a string into 
+        binary instruction for the control unit 
+        */
+        // Check for 0b/0B prefix
+        if(s->find("0b") == 0 || s->find("0B") == 0){
+            *ui = std::stoul(*s, nullptr, 2);
+            return true;
+        }
+        // Check for 0x/0X prefix
+        else if(s->find("0x") == 0 || s->find("0X") == 0){
+            *ui = std::stoul(*s, nullptr, 16);
+            return true;
+        }
+        else{
+            std::cout << "Invalid instruction input, must be 0x or 0b.\n";
+            return false;
+        }
+    };
 
