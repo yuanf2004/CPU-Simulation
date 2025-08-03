@@ -61,6 +61,10 @@ public:
     void clear_all_general_purpose_registers(void);
     void clear_instruction_register(void);
     void clear_program_counter(uint16_t addr);
+    void update_program_counter(uint16_t addr);
+    uint16_t get_program_counter(void);
+    void update_instruction_register(uint16_t data);
+    uint16_t get_instruction_register(void);
 };
 
 #endif

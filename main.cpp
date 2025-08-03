@@ -2,5 +2,5 @@
 
 int main(){
     CentralProcessingUnit cpu;
-    cpu.run();
+    cpu.run_continuous();
 }

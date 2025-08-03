@@ -18,7 +18,7 @@ private:
 
 public: 
     CentralProcessingUnit();
-    void run();
+    void program_decision(void);
     bool str_to_instr(std::string *s, uint16_t *ui);
 };
 

@@ -5,7 +5,7 @@
         :alu(&r, &ram), cu(&r, &ram, &alu)
     {};
 
-    void CentralProcessingUnit::run(){
+    void CentralProcessingUnit::run_continuous(){
         // Run the CPU by giving it inputs
         
         bool decode_ok = false;
@@ -45,4 +45,6 @@
             return false;
         }
     };
+
+
 

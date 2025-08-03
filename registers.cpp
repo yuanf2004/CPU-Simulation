@@ -76,3 +76,19 @@
     // Set the program counter's address
         pc.set_address(addr);
     };
+
+    void Registers::update_program_counter(uint16_t addr){
+        pc.set_address(addr);
+    }
+
+    uint16_t Registers::get_program_counter(void){
+        return pc.get_address();
+    }
+
+    void Registers::update_instruction_register(uint16_t data){
+        ir.update_data(data);
+    }
+
+    uint16_t Registers::get_instruction_register(void){
+        return ir.get_data();
+    }
