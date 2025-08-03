@@ -2,10 +2,21 @@
 
 void Simulation::setting(void){
 // Setting menu
+    int setting_choice;
     std::cout << "Settings\n";
     std::cout <<"[1] Program Type\n[2] Select Assembly File\n";
-    
+    std::cin >> setting_choice;
 
+    if(setting_choice == 1){
+        change_program_type();
+    }
+    else if(setting_choice == 2){
+        choose_assembly_file();
+    }
+    else{
+        std::cout << "Invalid choice.\n";
+        return;
+    }
 }
 
 void Simulation::change_program_type(void){
@@ -35,7 +46,25 @@ void Simulation::change_program_type(void){
 
 void Simulation::choose_assembly_file(void){
     // Display text to choose assembly file to execute
-    //TODO: Need to use the filesystem library to read through all .txt file names
+    //TODO: Need to use the filesystem library to read through all .txt
+    // namespace for easier writing 
+
+
+    //TODO: Need to build a system that links number selection to file path
+    std::set<std::string> file_names;
+
+    std::cout << "Current Readable Assembly Files: \n";
+    int i = 1;
+
+    //Populate set with file names
+    for(const auto& entry : fs::directory_iterator("assembly_files")){
+        if(entry.is_regular_file()){
+            std::cout << "[" << i  << "] " << "\n";
+            std::cout << entry.path().filename() << "\n";
+        }
+    }
+
+    std::cout << "Please enter your desired assembly file:\n";
 };
 
 void Simulation::run_sim(void){

@@ -2,7 +2,10 @@
 #define SIMULATION_H
 
 #include <set>
+#include <filesystem>
 #include "cpu.h"
+
+namespace fs = std::filesystem;
 
 class Simulation{
     private:
@@ -11,8 +14,8 @@ class Simulation{
         // Hold the choice for continuous instructions to CPU or Assembly input
         /*
         Program Type:
-        0 (default) - continuous
-        1 - assembly
+        0 (default) - Continuous Loop
+        1 - Assembly
         */
         int program_type = 0; 
         // Holds the path of the selected assembly file

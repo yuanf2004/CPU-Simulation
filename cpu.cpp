@@ -5,7 +5,7 @@
         :alu(&r, &ram), cu(&r, &ram, &alu)
     {};
 
-    void CentralProcessingUnit::run_continuous(){
+    void CentralProcessingUnit::run_continuous_loop(void){
         // Run the CPU by giving it inputs
         
         bool decode_ok = false;
@@ -23,6 +23,12 @@
             };
             decode_ok = true;
         }
+    };
+
+    void CentralProcessingUnit::run_assembly_file(void){
+    // Run assembly file option
+    // TODO: Will most likely need to pass the file content or string or something for this one to run
+        
     };
 
     bool CentralProcessingUnit::str_to_instr(std::string *s, uint16_t *ui){
