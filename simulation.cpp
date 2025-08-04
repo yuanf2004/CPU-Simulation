@@ -46,25 +46,32 @@ void Simulation::change_program_type(void){
 
 void Simulation::choose_assembly_file(void){
     // Display text to choose assembly file to execute
-    //TODO: Need to use the filesystem library to read through all .txt
     // namespace for easier writing 
-
-
-    //TODO: Need to build a system that links number selection to file path
-    std::set<std::string> file_names;
-
+    
+    std::unordered_map<int, std::string> assembly_files;
+    
     std::cout << "Current Readable Assembly Files: \n";
-    int i = 1;
+    int i = 0;
 
     //Populate set with file names
     for(const auto& entry : fs::directory_iterator("assembly_files")){
         if(entry.is_regular_file()){
+            i++;
             std::cout << "[" << i  << "] " << "\n";
             std::cout << entry.path().filename() << "\n";
+            // populate hashmap
+            assembly_files.insert({i, entry.path().filename()});
         }
     }
-
+    int assembly_file_sel_buffer;
     std::cout << "Please enter your desired assembly file:\n";
+    std::cin >> assembly_file_sel_buffer;
+    if(assembly_file_sel_buffer > 1 && assembly_file_sel_buffer < i){
+        selected_assembly_file = assembly_files.at(assembly_file_sel_buffer);
+    }
+    else{
+        std::cout << "Invalid choice, file was not saved.\n";
+    }
 };
 
 void Simulation::run_sim(void){

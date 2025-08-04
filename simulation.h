@@ -2,6 +2,7 @@
 #define SIMULATION_H
 
 #include <set>
+#include <unordered_map>
 #include <filesystem>
 #include "cpu.h"
 
