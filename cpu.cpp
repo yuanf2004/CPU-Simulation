@@ -25,9 +25,13 @@
         }
     };
 
-    void CentralProcessingUnit::run_assembly_file(void){
+    void CentralProcessingUnit::run_assembly_file(std::string assembly_fpath){
     // Run assembly file option
     // TODO: Will most likely need to pass the file content or string or something for this one to run
+    // this function will turn the file path and split into a vector of
+    // each line of instructions
+    std::vector<std::string> asmb_lines = asmb.assembly_split(assembly_fpath);
+    // this will actually need to write to the memory all the instruction lines?
         
     };
 

@@ -47,7 +47,7 @@ void Simulation::change_program_type(void){
 void Simulation::choose_assembly_file(void){
     // Display text to choose assembly file to execute
     // namespace for easier writing 
-    
+
     std::unordered_map<int, std::string> assembly_files;
     
     std::cout << "Current Readable Assembly Files: \n";
@@ -77,7 +77,7 @@ void Simulation::choose_assembly_file(void){
 void Simulation::run_sim(void){
 // User interface for CPU simulation program
     //Display options in terminal
-        user_choice = 0;
+        user_choice = 1;
         std::cout << "Welcome to the CPU Simulator!\n"; 
 
         while(1){
@@ -92,12 +92,20 @@ void Simulation::run_sim(void){
 
             switch(user_choice){
                 case 1:
-                    // Run Simulation Depending on Option
+                    // run simulation depending on option
+                    if(program_type){
+                        cpu.run_continuous_loop();
+                    }
+                    else{
+                        cpu.run_assembly_file(selected_assembly_file);   
+                    }
                     break;
                 case 2:
-                    // Go to options
+                    // go to setting
+                    setting();
                     break;
                 case 3:
+                    // exit program
                     return;
             }
             // Reset decision to go back to menu

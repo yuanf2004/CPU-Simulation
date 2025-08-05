@@ -1,5 +1,7 @@
 #include "assembler.h"
 
+Assembler::Assembler(){};
+
 uint16_t Assembler::generate_instruction_code(std::string assembly_line){
         // generate an instruction based off of one line of assembly
         uint16_t instruction_code = 0x00;
@@ -24,6 +26,19 @@ std::vector<std::string> line_split(std::string assembly_line){
     }
     return asmb_components;
 }
+
+std::vector<std::string> assembly_split(std::string fpath){
+// take a .txt file and split up each line to be returned as a vector containing all
+    std::ifstream file(fpath);
+    std::string line;
+    std::vector<std::string> assembly_lines;
+
+    while(std::getline(file, line)){
+        assembly_lines.push_back(line);
+    };
+
+    return assembly_lines;
+};
 
 uint16_t Assembler::fetch_op(std::string assembly_line){
     // case sensitive assembly 
@@ -123,13 +138,14 @@ uint16_t Assembler::fetch_non_op(uint16_t op, std::string assembly_line){
             return instr;
         case(0x7):
             // xor rd ra rb
-            instr |= fetch_rs(asmb_components.at(1), 'a');
-            instr |= fetch_rs(asmb_components.at(2), 'b');
-            instr |= fetch_rs(asmb_components.at(3), 'c');
+            instr |= fetch_rs(asmb_components.at(1), 'd');
+            instr |= fetch_rs(asmb_components.at(2), 'a');
+            instr |= fetch_rs(asmb_components.at(3), 'b');
             return instr;
         case(0x8):
-            // not 
-        
+            // not rd ra
+            instr |= fetch_rs(asmb_components.at(1), 'd');
+            instr |= fetch_rs(asmb_components.at(2), 'a');
             return instr;
         case(0x9):
             // addi rd ra imm
@@ -215,7 +231,16 @@ uint16_t Assembler::fetch_imm(std::string imm){
 };
 
 uint16_t Assembler::fetch_mem(std::string mem){
+// decode the memory and return it as a uint
+    std::string num_str;
 
-    // takes in memX as input
-    return static_cast
+    for(char c : mem){
+        if(std::isdigit(c)){
+            num_str += c;
+        }
+
+        if(!num_str.empty()){
+        return static_cast<uint16_t>(std::stoi(num_str));
+        }
+    }
 };

@@ -29,6 +29,7 @@ public:
     uint16_t get_ramcell(uint16_t cellnum);
     void update_ramcell(uint16_t cellnum, uint16_t data);
     void reset_ramcell(uint16_t cellnum);
+    void clear_ramcells(void);
 };
 
 #endif

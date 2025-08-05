@@ -33,5 +33,11 @@
         ramcell[cellnum].update_data(0);
     }
 
+    void RandomAccessMemory::clear_ramcells(void){
+    // clear all ramcells
+        for(int i = 0; i < BIT16_SIZE; i++){
+            reset_ramcell(i);
+        }
+    }
 
 

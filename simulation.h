@@ -15,8 +15,8 @@ class Simulation{
         // Hold the choice for continuous instructions to CPU or Assembly input
         /*
         Program Type:
-        0 (default) - Continuous Loop
-        1 - Assembly
+        1(default) - Continuous Loop
+        0 - Assembly File
         */
         int program_type = 0; 
         // Holds the path of the selected assembly file
@@ -24,6 +24,7 @@ class Simulation{
         // Valid choices for the setting used for comparison
         const std::set<int> valid_choices = {1,2,3};
         CentralProcessingUnit cpu;
+        Assembler asmb;
 
     public:
         void setting(void);

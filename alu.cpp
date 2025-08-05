@@ -18,13 +18,13 @@
     void ArithmeticLogicUnit::alu_add(uint16_t regdest, uint16_t rega, uint16_t regb){
         uint16_t rega_data = r->get_data_general_purpose_register(rega);
         uint16_t regb_data = r->get_data_general_purpose_register(regb);
-        r->update_general_purpose_register(regdest, (rega_data + rega_data));
+        r->update_general_purpose_register(regdest, (rega_data + regb_data));
     };
 
     void ArithmeticLogicUnit::alu_sub(uint16_t regdest, uint16_t rega, uint16_t regb){
         uint16_t rega_data = r->get_data_general_purpose_register(rega);
         uint16_t regb_data = r->get_data_general_purpose_register(regb);
-        r->update_general_purpose_register(regdest, (rega_data + rega_data));
+        r->update_general_purpose_register(regdest, (rega_data - regb_data));
     };
 
     void ArithmeticLogicUnit::alu_and(uint16_t regdest, uint16_t rega, uint16_t regb){

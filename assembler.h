@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <fstream>
 
 class Assembler{
 private:
@@ -15,13 +16,17 @@ public:
 
     // add rd rsx rsy
 
-    uint16_t generate_instruction_code(std::string assembly_line){};
+    Assembler(void);
 
-    std::vector<std::string> line_split(std::string assembly_line){};
+    uint16_t generate_instruction_code(std::string assembly_line);
 
-    uint16_t fetch_op(std::string assembly_line){};
+    std::vector<std::string> line_split(std::string assembly_line);
 
-    uint16_t fetch_non_op(uint16_t op, std::string assembly_line){};
+    std::vector<std::string> assembly_split(std::string fpath);
+
+    uint16_t fetch_op(std::string assembly_line);
+
+    uint16_t fetch_non_op(uint16_t op, std::string assembly_line);
     // this function is supposed to get the opcode and then
     // decode the rest of the line based on the given opcode
 
