@@ -32,11 +32,11 @@ public:
 
     // these will first depend on the opcode fetched
 
-    uint16_t fetch_rs(std::string reg, char type){};
+    uint16_t fetch_rs(std::string reg, char type);
 
-    uint16_t fetch_imm(std::string imm){};
+    uint16_t fetch_imm(std::string imm);
 
-    uint16_t fetch_mem(std::string imm){};
+    uint16_t fetch_mem(std::string imm);
 };
 
 #endif

@@ -12,11 +12,11 @@ uint16_t Assembler::generate_instruction_code(std::string assembly_line){
         uint16_t instruction_12_to_0 = fetch_non_op(op, assembly_line);
 
         // bitwise or with rest of instruction
-        op |= instruction_12_to_0;
-        return op;
+        instruction_code |= instruction_12_to_0;
+        return instruction_code;
 };
 
-std::vector<std::string> line_split(std::string assembly_line){
+std::vector<std::string> Assembler::line_split(std::string assembly_line){
     // helper function to split the line of assembly
     std::vector<std::string> asmb_components;
     std::istringstream iss(assembly_line);
@@ -27,7 +27,7 @@ std::vector<std::string> line_split(std::string assembly_line){
     return asmb_components;
 }
 
-std::vector<std::string> assembly_split(std::string fpath){
+std::vector<std::string> Assembler::assembly_split(std::string fpath){
 // take a .txt file and split up each line to be returned as a vector containing all
     std::ifstream file(fpath);
     std::string line;
@@ -46,140 +46,148 @@ uint16_t Assembler::fetch_op(std::string assembly_line){
     // op will be the 0th element of the vector
     std::string op = line_split(assembly_line).at(0);
     if(op == "load"){
-        
-    }
-    else if(op == "store"){
         return 0x0;
     }
-    else if(op == "add"){
+    else if(op == "store"){
         return 0x1;
     }
-    else if(op == "sub"){
+    else if(op == "add"){
         return 0x2;
     }
-    else if(op == "and"){
+    else if(op == "sub"){
         return 0x3;
     }
-    else if(op == "or"){
+    else if(op == "and"){
         return 0x4;
     }
-    else if(op == "xor"){
+    else if(op == "or"){
         return 0x5;
     }
-    else if(op == "not"){
+    else if(op == "xor"){
         return 0x6;
     }
-    else if(op == "addi"){
+    else if(op == "not"){
         return 0x7;
     }
-    else if(op == "subi"){
+    else if(op == "addi"){
         return 0x8;
     }
-    else if(op == "andi"){
+    else if(op == "subi"){
         return 0x9;
     }
-    else if(op == "ori"){
+    else if(op == "andi"){
         return 0xA;
     }
-    else if(op == "xori"){
+    else if(op == "ori"){
         return 0xB;
     }
-    else if(op == "jmp"){
+    else if(op == "xori"){
         return 0xC;
     }
-    else if(op == "jz"){
+    else if(op == "jmp"){
         return 0xD;
     }
-    else if(op == "jnz"){
+    else if(op == "jz"){
         return 0xE;
-    }   
-    else{
-        // error case, may need to go back to this to fix since it is jnz
-        return 0xF;
     }
+    else if(op == "jnz"){
+        return 0xF;
+    }   
+    // If error case
+    return 0xFFFF;
 };
 
 uint16_t Assembler::fetch_non_op(uint16_t op, std::string assembly_line){
 // return bits 12 to 0 of instruction depending on opcode
     std::vector<std::string> asmb_components = line_split(assembly_line);
+    uint16_t instr = 0x0;
     switch(op){
-        uint16_t instr = 0x0;
-        case(0x1):
+        case(0x0):
             // load rd memloc
             instr |= fetch_rs(asmb_components.at(1), 'd');
             instr |= fetch_mem(asmb_components.at(2));
-        case(0x2): 
+            return instr;
+        case(0x1): 
             // store rs memloc
             instr |= fetch_rs(asmb_components.at(1), 'd');
             instr |= fetch_mem(asmb_components.at(2));
-        case(0x3):
+            return instr;
+        case(0x2):
             // add rd ra rb    
             instr |= fetch_rs(asmb_components.at(1), 'd');
             instr |= fetch_rs(asmb_components.at(2), 'a');
             instr |= fetch_rs(asmb_components.at(3), 'b');
             return instr;
-        case(0x4):
+        case(0x3):
             // sub rd ra rb
-            instr |= fetch_rs(asmb_components.at(1), 'a');
-            instr |= fetch_rs(asmb_components.at(2), 'b');
-            instr |= fetch_rs(asmb_components.at(3), 'c');
+            instr |= fetch_rs(asmb_components.at(1), 'd');
+            instr |= fetch_rs(asmb_components.at(2), 'a');
+            instr |= fetch_rs(asmb_components.at(3), 'b');
+            return instr;
+        case(0x4):
+            // and rd ra rb
+            instr |= fetch_rs(asmb_components.at(1), 'd');
+            instr |= fetch_rs(asmb_components.at(2), 'a');
+            instr |= fetch_rs(asmb_components.at(3), 'b');
             return instr;
         case(0x5):
-            // and rd ra rb
-            instr |= fetch_rs(asmb_components.at(1), 'a');
-            instr |= fetch_rs(asmb_components.at(2), 'b');
-            instr |= fetch_rs(asmb_components.at(3), 'c');
-            return instr;
-        case(0x6):
             // or rd ra rb
             instr |= fetch_rs(asmb_components.at(1), 'd');
             instr |= fetch_rs(asmb_components.at(2), 'a');
             instr |= fetch_rs(asmb_components.at(3), 'b');
             return instr;
-        case(0x7):
+        case(0x6):
             // xor rd ra rb
             instr |= fetch_rs(asmb_components.at(1), 'd');
             instr |= fetch_rs(asmb_components.at(2), 'a');
             instr |= fetch_rs(asmb_components.at(3), 'b');
             return instr;
-        case(0x8):
+        case(0x7):
             // not rd ra
             instr |= fetch_rs(asmb_components.at(1), 'd');
             instr |= fetch_rs(asmb_components.at(2), 'a');
             return instr;
-        case(0x9):
+        case(0x8):
             // addi rd ra imm
-            instr |= fetch_rs(asmb_components.at(1), 'a');
-            instr |= fetch_rs(asmb_components.at(2), 'b');
+            instr |= fetch_rs(asmb_components.at(1), 'd');
+            instr |= fetch_rs(asmb_components.at(2), 'a');
             instr |= fetch_imm(asmb_components.at(3));
             return instr;
-        case(0xA):
+        case(0x9):
             // subi rd ra imm
-            instr |= fetch_rs(asmb_components.at(1), 'a');
-            instr |= fetch_rs(asmb_components.at(2), 'b');
+            instr |= fetch_rs(asmb_components.at(1), 'd');
+            instr |= fetch_rs(asmb_components.at(2), 'a');
             instr |= fetch_imm(asmb_components.at(3));
             return instr;
+        case(0xA): 
+            // andi rd ra imm
+            instr |= fetch_rs(asmb_components.at(1), 'd');
+            instr |= fetch_rs(asmb_components.at(2), 'a');
+            instr |= fetch_imm(asmb_components.at(3));
         case(0xB):
             // ori rd ra imm
-            instr |= fetch_rs(asmb_components.at(1), 'a');
-            instr |= fetch_rs(asmb_components.at(2), 'b');
+            instr |= fetch_rs(asmb_components.at(1), 'd');
+            instr |= fetch_rs(asmb_components.at(2), 'a');
             instr |= fetch_imm(asmb_components.at(3));
             return instr;
         case(0xC):
             // xori rd ra imm
-            instr |= fetch_rs(asmb_components.at(1), 'a');
-            instr |= fetch_rs(asmb_components.at(2), 'b');
+            instr |= fetch_rs(asmb_components.at(1), 'd');
+            instr |= fetch_rs(asmb_components.at(2), 'a');
             instr |= fetch_imm(asmb_components.at(3));
             return instr;
         case(0xD):
+            // TODO
             // jmp
 
             return instr;
         case(0xE):
+            // TODO
             // jz
 
             return instr;
         case(0xF):
+            // TODO
             // jnz
 
             return instr;
@@ -187,7 +195,6 @@ uint16_t Assembler::fetch_non_op(uint16_t op, std::string assembly_line){
             //error 
             return 0xFFFF;
     }
-
 };
 
 uint16_t Assembler::fetch_rs(std::string reg, char type){
@@ -221,7 +228,7 @@ uint16_t Assembler::fetch_rs(std::string reg, char type){
     }
     else{
         // error
-        0xFFFF;
+        return 0xFFFF;
     }
 };
 
@@ -238,9 +245,11 @@ uint16_t Assembler::fetch_mem(std::string mem){
         if(std::isdigit(c)){
             num_str += c;
         }
-
-        if(!num_str.empty()){
-        return static_cast<uint16_t>(std::stoi(num_str));
-        }
     }
+
+    if(!num_str.empty()){
+        return static_cast<uint16_t>(std::stoi(num_str));
+    }
+    // error return
+    return 0xFFFF;
 };

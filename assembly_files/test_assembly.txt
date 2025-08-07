@@ -1,0 +1,4 @@
+add rs2 rs8 rs9
+subi rs1 rs7 99
+load rs8 memloc200
+xor rs4 rs1 rs2

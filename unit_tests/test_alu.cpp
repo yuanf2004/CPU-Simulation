@@ -1,6 +1,6 @@
-#include "alu.h"
-#include "registers.h"
-#include "ram.h"
+#include "../alu.h"
+#include "../registers.h"
+#include "../ram.h"
 #include <gtest/gtest.h>
 
 TEST(ALUTest, LoadStoreOperations){
