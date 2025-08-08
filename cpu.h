@@ -23,7 +23,7 @@ public:
     CentralProcessingUnit();
     void run_continuous_loop(void);
     void run_assembly_file(std::string assembly_fpath);
-    bool str_to_instr(std::string *s, uint16_t *ui);
+    //bool str_to_instr(std::string *s, uint16_t *ui);
 };
 
 #endif

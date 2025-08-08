@@ -77,7 +77,7 @@ void Simulation::choose_assembly_file(void){
 void Simulation::run_sim(void){
 // User interface for CPU simulation program
     //Display options in terminal
-        user_choice = 1;
+        user_choice = 0;
         std::cout << "Welcome to the CPU Simulator!\n"; 
 
         while(1){
@@ -88,9 +88,8 @@ void Simulation::run_sim(void){
                 if(valid_choices.find(user_choice) == valid_choices.end()){
                     std::cout << "Not a valid option.\n";
                 }
-            }
 
-            switch(user_choice){
+                switch(user_choice){
                 case 1:
                     // run simulation depending on option
                     if(program_type){
@@ -111,5 +110,6 @@ void Simulation::run_sim(void){
             // Reset decision to go back to menu
             user_choice = 0;
         }
+    }
         //TODO: Need to add handling to exit program for the continuous loop and assembly options.
 }
