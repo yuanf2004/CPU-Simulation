@@ -35,7 +35,7 @@ void Simulation::change_program_type(void){
     std::cout << "Enter Desired Program Type:\n[1] Continuous Loop\n[2] Assembly File\n";
     std::cin >> program_type_buffer;
 
-    if(program_type_buffer != 0 && program_type_buffer != 1){
+    if(program_type_buffer != 1 && program_type_buffer != 2){
         std::cout << "Invalid choice, no changes made.\n";
     }
     else{
@@ -66,8 +66,9 @@ void Simulation::choose_assembly_file(void){
     int assembly_file_sel_buffer;
     std::cout << "Please enter your desired assembly file:\n";
     std::cin >> assembly_file_sel_buffer;
-    if(assembly_file_sel_buffer > 1 && assembly_file_sel_buffer < i){
+    if(assembly_file_sel_buffer >= 1 && assembly_file_sel_buffer <= i){
         selected_assembly_file = assembly_files.at(assembly_file_sel_buffer);
+        std::cout << "Your choice, " + selected_assembly_file + " was saved!\n";
     }
     else{
         std::cout << "Invalid choice, file was not saved.\n";
@@ -92,11 +93,15 @@ void Simulation::run_sim(void){
                 switch(user_choice){
                 case 1:
                     // run simulation depending on option
-                    if(program_type){
+                    if(program_type == 1){
                         cpu.run_continuous_loop();
                     }
-                    else{
+                    else if(program_type == 2){
                         cpu.run_assembly_file(selected_assembly_file);   
+                    }
+                    else{
+                        std::cout << "Program type error.\n";
+                        return;
                     }
                     break;
                 case 2:

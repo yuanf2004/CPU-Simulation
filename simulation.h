@@ -18,7 +18,7 @@ class Simulation{
         1(default) - Continuous Loop
         0 - Assembly File
         */
-        int program_type = 0; 
+        int program_type = 1; 
         // Holds the path of the selected assembly file
         std::string selected_assembly_file;
         // Valid choices for the setting used for comparison

@@ -29,7 +29,8 @@ std::vector<std::string> Assembler::line_split(std::string assembly_line){
 
 std::vector<std::string> Assembler::assembly_split(std::string fpath){
 // take a .txt file and split up each line to be returned as a vector containing all
-    std::ifstream file(fpath);
+    std::string fpath_extend = "assembly_files/" + fpath;
+    std::ifstream file(fpath_extend);
     std::string line;
     std::vector<std::string> assembly_lines;
 

@@ -9,6 +9,7 @@
 #include "assembler.h"
 #include <string>
 #include <iostream>
+#include <limits>
 
 class CentralProcessingUnit{
 private:

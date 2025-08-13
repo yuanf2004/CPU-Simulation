@@ -10,56 +10,64 @@
         //bool decode_ok = false;
         uint16_t user_i;
         std::string buffer_i;
+        int loop_count = 0;
         
         while(1){
-            std::cout << "Enter your instruction: \n";
-            std::cin >> buffer_i;
+
+            // clear the input line when running program for the first time
+            if(loop_count > 0){
+                std::cout << "Enter your instruction: \n";
+            }
+            std::getline(std::cin, buffer_i);
+            loop_count++;
 
             // exit program on user input
             if(buffer_i == "exit"){
                 return;
             }
 
-            // use a vector to determine if user instruction 
-            std::vector<std::string> buffer_split;
-            std::stringstream iss(buffer_i);
-            std::string word;
-            while (iss >> word){
-                buffer_split.push_back(word);
-            }
+            if(!buffer_i.empty()){
+                // use a vector to determine if user instruction 
+                std::vector<std::string> buffer_split;
+                std::stringstream iss(buffer_i);
+                std::string word;
+                while (iss >> word){
+                    buffer_split.push_back(word);
+                }
 
-            // split up the memory type (reg/memloc) with the index
-            std::string memory_index;
-            std::string memory_type;
+                // split up the memory type (reg/memloc) with the index
+                std::string memory_index;
+                std::string memory_type;
 
-            // look for rs and memloc if vector is size 1
-            if(buffer_split.size() == 1){
-                for(char c : buffer_split[0]){
-                    if(std::isdigit(c)){
-                        memory_index += c;
+                // look for rs and memloc if vector is size 1
+                if(buffer_split.size() == 1){
+                    for(char c : buffer_split[0]){
+                        if(std::isdigit(c)){
+                            memory_index += c;
+                        }
+                        else{
+                            memory_type += c;
+                        }
                     }
-                    else{
-                        memory_type += c;
+                }
+
+                // return memory data if index and type are populated
+                if(!memory_index.empty() && !memory_type.empty()){
+                    if(memory_type == "rs"){
+                        uint16_t reg_value = r.get_data_general_purpose_register(std::stoi(memory_index));
+                        std::cout << "Register " + memory_index + "'s value is: ";
+                        std::cout << reg_value << "\n";
+                    }
+                    else if(memory_type == "memloc"){
+                        uint16_t memloc_value = ram.get_ramcell(std::stoi(memory_index));
+                        std::cout << "Memory location " + memory_index + "'s value is: ";
+                        std::cout << memloc_value << "\n";
                     }
                 }
-            }
-
-            // return memory data if index and type are populated
-            if(!memory_index.empty() && !memory_type.empty()){
-                if(memory_type == "reg"){
-                    uint16_t reg_value = r.get_data_general_purpose_register(std::stoi(memory_index));
-                    std::cout << "Register " + memory_index + "'s value is: ";
-                    std::cout << reg_value << "\n";
-                }
-                else if(memory_type == "memloc"){
-                    uint16_t memloc_value = ram.get_ramcell(std::stoi(memory_index));
-                    std::cout << "Memory location " + memory_index + "'s value is: ";
-                    std::cout << memloc_value << "\n";
-                }
-            }
-        
-            uint16_t instr = asmb.generate_instruction_code(buffer_i);
-            cu.decode_instruction(instr);
+            
+                uint16_t instr = asmb.generate_instruction_code(buffer_i);
+                cu.decode_instruction(instr);
+            } 
         }
     };
 
@@ -106,7 +114,7 @@
                     }
                 }
 
-                if(memory_type == "reg"){
+                if(memory_type == "rs"){
                     std::cout << "Register " + memory_index + " holds: ";
                     std::cout << r.get_data_general_purpose_register(std::stoi(memory_index)) << "\n";
                 }
