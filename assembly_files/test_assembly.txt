@@ -1,3 +1,4 @@
-addi rs0 rs0 8
-addi rs1 rs0 2 
-store rs1 memloc254
+add rs2 rs8 rs9
+subi rs1 rs7 99
+load rs8 memloc200
+xor rs4 rs1 rs2

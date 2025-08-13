@@ -1,0 +1,3 @@
+addi rs0 rs0 8
+addi rs1 rs0 2 
+store rs1 memloc254
