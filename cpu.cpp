@@ -96,10 +96,29 @@
             ram.update_ramcell(i, instruction_vector[i]);
         }
 
-        // read from the code segment of ram 
-        for(int i = 0; i < asmb_lines.size(); i++){
-            cu.decode_instruction(ram.get_ramcell(i));
+        //reset program counter before running assembly
+        r.update_program_counter(0);
+
+        //read from ram as long as program counter does not exceed assembly
+        //.txt file size
+
+
+        //! this may need to be changed when jz and jzn logic is added,
+        //! currently it only does sequential reading and does not account
+        //! for jumps?
+        while(r.get_program_counter() < instruction_vector.size()){
+            uint16_t program_counter = r.get_program_counter();
+            // load into instruction register
+            r.update_instruction_register(ram.get_ramcell(program_counter));
+            cu.decode_instruction(r.get_instruction_register());
+            //iterate after line is read
+            r.update_program_counter(program_counter+1);
         }
+
+        // // read from the code segment of ram 
+        // for(int i = 0; i < asmb_lines.size(); i++){
+        //     cu.decode_instruction(ram.get_ramcell(i));
+        // }
 
         //todo: idea, instead of giving the warning make it so the code 
         //todo: just does not run at all.
