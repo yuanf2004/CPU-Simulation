@@ -77,17 +77,41 @@
         // NOTE: Assembly path is from the root of the project so it will always
         // be assembly_files/...
 
-        // TODO: Need to assign the instructions to the beginning of MEMLOC
-        // and then read from the memloc instead of what i currently have, where
-        // it is just splitting an assembly .txt file and reading it from a vector
-
+        // vector of assembly lines in text
         std::vector<std::string> asmb_lines = asmb.assembly_split(assembly_fpath);
+        // stores instructions for ram
+        std::vector<uint16_t> instruction_vector;
+
+        // note: this part may seem redundant but is done to mimic 
+        // the cpu as closely as possible
+
+        // populate the instruction vector
         for(std::string s : asmb_lines){
             uint16_t instr = asmb.generate_instruction_code(s);
-            cu.decode_instruction(instr);
+            instruction_vector.push_back(instr);
         }
+
+        // fill up ram with instructions
+        for(int i = 0; i < asmb_lines.size(); i++){
+            ram.update_ramcell(i, instruction_vector[i]);
+        }
+
+        // read from the code segment of ram 
+        for(int i = 0; i < asmb_lines.size(); i++){
+            cu.decode_instruction(ram.get_ramcell(i));
+        }
+
+        //todo: idea, instead of giving the warning make it so the code 
+        //todo: just does not run at all.
+
     // this will actually need to write to the memory all the instruction lines?
         bool cont = 1;
+    //notice for code segment writing
+        std::cout << "\nWARNING: Your code segment of the RAM goes from memloc0 to ";
+        std::cout << "memloc" << asmb_lines.size()-1 << ". ";
+        std::cout << "If your assembly overwrites any of these memory locations, ";
+        std::cout << "your program will not work.\n\n";
+
         std::cout << "What would you like to do now?\n";
         std::cout << "rs(number) - view value at register\n";
         std::cout << "memloc(number) - view value at memory location\n";
