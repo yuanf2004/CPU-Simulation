@@ -17,7 +17,6 @@
 
     void ControlUnit::decode_instruction(uint16_t i){
         uint16_t opcode = i >> 12;
-
         switch(opcode){
             case 0x0:
                 decode_load(i);
@@ -61,11 +60,18 @@
             case 0xD:
                 decode_jmp(i);
                 break;
+            }
+    }
+
+    void ControlUnit::decode_instruction(std::vector<uint16_t> is){
+        // handle instructions that take >1 line of instructions
+        uint16_t opcode = is[0] >> 4;
+        switch(opcode){
             case 0xE:
-                decode_jz(i);
+                decode_beq(is);
                 break;
             case 0xF:
-                decode_jnz(i);
+                decode_bne(is);
                 break;
         }
     }
@@ -212,9 +218,9 @@
     }
 
     //TODO: Write later
-    void ControlUnit::decode_jz(uint16_t i){
+    void ControlUnit::decode_beq(std::vector<uint16_t> i_s){
     }
 
     //TODO: Write later
-    void ControlUnit::decode_jnz(uint16_t i){
+    void ControlUnit::decode_bne(std::vector<uint16_t> i_s){
     }

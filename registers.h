@@ -30,6 +30,15 @@ class ProgramCounter{
         void reset_address(void);
 };
 
+class ZeroRegister{
+    private:
+        uint16_t flag;
+    public:
+        uint16_t get_flag(void);
+        void set_flag(uint16_t set);
+        void reset_flag(void);
+};
+
 class Registers{
 
 private:

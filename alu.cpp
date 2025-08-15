@@ -76,15 +76,39 @@
     };
 
     //TODO: To be filled out later
-    void ArithmeticLogicUnit::alu_jmp(){
+    void ArithmeticLogicUnit::alu_jmp(uint16_t addr){
+        // set the program counter to input address
+        uint16_t jump_to = addr & 0x0FFF;
+        
+        //set program counter to the jump to
+
     };
 
     //TODO: To be filled out later
-    void ArithmeticLogicUnit::alu_jz(){
+    void ArithmeticLogicUnit::alu_beq(std::vector<uint16_t> instr_lines){
+        // jump to line if two registers equal
+        uint16_t first = instr_lines[0];
+        uint16_t second = instr_lines[1];
+
+        uint16_t ra = (first & 0x0F00) >> 8;
+        uint16_t rb = (first & 0x00F0) >> 4;
+
+        if(ra == rb){
+            // set program counter address to second
+        }
     };
 
-    //TODO: to be filled out later
-    void ArithmeticLogicUnit::alu_jnz(){
+    void ArithmeticLogicUnit::alu_bne(std::vector<uint16_t> instr_lines){
+        // jump to line if two register not equal
+        uint16_t first = instr_lines[0];
+        uint16_t second = instr_lines[1];
+
+        uint16_t ra = (first & 0x0F00) >> 8;
+        uint16_t rb = (first & 0x00F0) >> 4;
+
+        if(ra != rb){
+            // set program counter address to second
+        }
     };
 
 

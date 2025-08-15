@@ -44,6 +44,18 @@
         address = 0;
     };
 
+    uint16_t ZeroRegister::get_flag(void){
+        return flag;
+    };
+
+    void ZeroRegister::set_flag(uint16_t set){
+        flag = set;
+    };
+
+    void ZeroRegister::reset_flag(void){
+        flag = 0;
+    };
+
     Registers::Registers(void){
     // Constructor
         init_general_purpose_registers();

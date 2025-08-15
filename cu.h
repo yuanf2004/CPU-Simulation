@@ -13,6 +13,7 @@ private:
 public:
     ControlUnit(Registers *r, RandomAccessMemory *ram, ArithmeticLogicUnit *alu);
     void decode_instruction(uint16_t i);
+    void decode_instruction(std::vector<uint16_t> branch_i);
     void decode_load(uint16_t i);
     void decode_store(uint16_t i);
     void decode_add(uint16_t i);
@@ -27,8 +28,8 @@ public:
     void decode_ori(uint16_t i);
     void decode_xori(uint16_t i);
     void decode_jmp(uint16_t i);
-    void decode_jz(uint16_t i);
-    void decode_jnz(uint16_t i);
+    void decode_beq(std::vector<uint16_t> i_s);
+    void decode_bne(std::vector<uint16_t> i_s);
 };
 
 #endif

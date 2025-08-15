@@ -101,24 +101,39 @@
 
         //read from ram as long as program counter does not exceed assembly
         //.txt file size
-
-
-        //! this may need to be changed when jz and jzn logic is added,
-        //! currently it only does sequential reading and does not account
-        //! for jumps?
         while(r.get_program_counter() < instruction_vector.size()){
             uint16_t program_counter = r.get_program_counter();
             // load into instruction register
             r.update_instruction_register(ram.get_ramcell(program_counter));
-            cu.decode_instruction(r.get_instruction_register());
-            //iterate after line is read
+
+
+            
+            // holds multiple instructions if opcode is beq, bne, etc...
+            std::vector<uint16_t> many_instr_v;
+            uint16_t opcode = r.get_instruction_register() >> 12;
+
+            if(opcode == 0xE | opcode == 0xF){
+                // add first instruction
+                many_instr_v.push_back(r.get_instruction_register());
+                // update and fetch new instruction
+                r.update_program_counter(program_counter+1);
+                r.update_instruction_register(ram.get_ramcell(program_counter));
+                // add second instruction
+                many_instr_v.push_back(r.get_instruction_register());
+            }
+
+            // handle decoding differently for if it is a regular or multi line
+            // instruction(s)
+            if(many_instr_v.empty()){
+               cu.decode_instruction(r.get_instruction_register()); 
+            }
+            else{
+                cu.decode_instruction(many_instr_v);
+            }
+
+            //iterate pc after line is read
             r.update_program_counter(program_counter+1);
         }
-
-        // // read from the code segment of ram 
-        // for(int i = 0; i < asmb_lines.size(); i++){
-        //     cu.decode_instruction(ram.get_ramcell(i));
-        // }
 
         //todo: idea, instead of giving the warning make it so the code 
         //todo: just does not run at all.
