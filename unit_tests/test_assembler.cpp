@@ -42,3 +42,4 @@ TEST(AssemblerTest, AssemblySplit){
         "xor rs4 rs1 rs2"};
     EXPECT_EQ(asmb.assembly_split(fpath), expected_vector);
 };
+

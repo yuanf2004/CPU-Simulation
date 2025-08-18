@@ -75,39 +75,29 @@
     r->update_general_purpose_register(regdest, (rega_data ^ imm));
     };
 
-    //TODO: To be filled out later
-    void ArithmeticLogicUnit::alu_jmp(uint16_t addr){
+    void ArithmeticLogicUnit::alu_jmp(uint16_t jmpdest){
         // set the program counter to input address
-        uint16_t jump_to = addr & 0x0FFF;
-        
-        //set program counter to the jump to
+        r->update_program_counter(jmpdest);
 
     };
 
-    //TODO: To be filled out later
-    void ArithmeticLogicUnit::alu_beq(std::vector<uint16_t> instr_lines){
-        // jump to line if two registers equal
-        uint16_t first = instr_lines[0];
-        uint16_t second = instr_lines[1];
+    void ArithmeticLogicUnit::alu_beq(uint16_t rega, uint16_t regb, uint16_t jmpdest){
+        uint16_t rega_val = r->get_data_general_purpose_register(rega);
+        uint16_t regb_val = r->get_data_general_purpose_register(regb);
 
-        uint16_t ra = (first & 0x0F00) >> 8;
-        uint16_t rb = (first & 0x00F0) >> 4;
-
-        if(ra == rb){
-            // set program counter address to second
+        // jump if equal
+        if(rega_val == regb_val){
+            r->update_program_counter(jmpdest);
         }
     };
 
-    void ArithmeticLogicUnit::alu_bne(std::vector<uint16_t> instr_lines){
-        // jump to line if two register not equal
-        uint16_t first = instr_lines[0];
-        uint16_t second = instr_lines[1];
+    void ArithmeticLogicUnit::alu_bne(uint16_t rega, uint16_t regb, uint16_t jmpdest){
+        uint16_t rega_val = r->get_data_general_purpose_register(rega);
+        uint16_t regb_val = r->get_data_general_purpose_register(regb);
 
-        uint16_t ra = (first & 0x0F00) >> 8;
-        uint16_t rb = (first & 0x00F0) >> 4;
-
-        if(ra != rb){
-            // set program counter address to second
+        // jump if not equal
+        if(rega_val != regb_val){
+            r->update_program_counter(jmpdest);
         }
     };
 

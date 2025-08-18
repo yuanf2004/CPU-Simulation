@@ -65,7 +65,7 @@
 
     void ControlUnit::decode_instruction(std::vector<uint16_t> is){
         // handle instructions that take >1 line of instructions
-        uint16_t opcode = is[0] >> 4;
+        uint16_t opcode = is[0] >> 12;
         switch(opcode){
             case 0xE:
                 decode_beq(is);
@@ -213,14 +213,40 @@
         alu->alu_ori(regdest, rega, imm);
     }
 
-    //TODO: Write later
+    // note: jmp, beq, and bne are only compatible with assembly function,
+    // not the continuous function 
+
     void ControlUnit::decode_jmp(uint16_t i){
+        // Jump Line - 11:0
+        uint16_t jmpdest = i & 0x0FFF;
+
+        alu->alu_jmp(jmpdest);
     }
 
-    //TODO: Write later
     void ControlUnit::decode_beq(std::vector<uint16_t> i_s){
+        // Instruction 1
+        // Register A - 11:8
+        // Register B - 7:4
+        // Don't Care - 3:0
+        // Instruction 2
+        // Jump Line - 15:0
+        uint16_t rega = (i_s[0] >> 8) & 0xF;
+        uint16_t regb = (i_s[0] >> 4) & 0xF;
+        uint16_t jmpdest = i_s[1];
+
+        alu->alu_beq(rega, regb, jmpdest);
     }
 
-    //TODO: Write later
     void ControlUnit::decode_bne(std::vector<uint16_t> i_s){
+        // Instruction 1
+        // Register A - 11:8
+        // Register B - 7:4
+        // Don't Care - 3:0
+        // Instruction 2
+        // Jump Line - 15:0
+        uint16_t rega = (i_s[0] >> 8) & 0xF;
+        uint16_t regb = (i_s[0] >> 4) & 0xF;
+        uint16_t jmpdest = i_s[1];
+
+        alu->alu_bne(rega, regb, jmpdest);
     }

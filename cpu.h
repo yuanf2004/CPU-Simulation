@@ -19,12 +19,11 @@ private:
     ControlUnit cu;
     Assembler asmb;
     
-
 public: 
     CentralProcessingUnit();
     void run_continuous_loop(void);
     void run_assembly_file(std::string assembly_fpath);
-    //bool str_to_instr(std::string *s, uint16_t *ui);
+    uint16_t test_run_assembly_file(std::string assembly_fpath);
 };
 
 #endif

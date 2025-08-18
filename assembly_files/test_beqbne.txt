@@ -1,0 +1,4 @@
+beq rs1 rs1 3
+addi rs0 rs0 1
+addi rs0 rs0 2
+addi rs5 rs0 8

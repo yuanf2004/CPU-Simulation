@@ -25,9 +25,9 @@ public:
     void alu_andi(uint16_t regdest, uint16_t rega, uint16_t imm);
     void alu_ori(uint16_t regdest, uint16_t rega, uint16_t imm);
     void alu_xori(uint16_t regdest, uint16_t rega, uint16_t imm);
-    void alu_jmp(uint16_t addr);
-    void alu_beq(std::vector<uint16_t> instr_lines);
-    void alu_bne(std::vector<uint16_t> instr_lines);
+    void alu_jmp(uint16_t jmpdest);
+    void alu_beq(uint16_t rega, uint16_t regb, uint16_t jmpdest);
+    void alu_bne(uint16_t rega, uint16_t regb, uint16_t jmpdest);
 };
 
 #endif

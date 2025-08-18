@@ -16,6 +16,30 @@ uint16_t Assembler::generate_instruction_code(std::string assembly_line){
         return instruction_code;
 };
 
+std::vector<uint16_t> Assembler::generate_instruction_code_branch(std::string assembly_line){
+
+    std::vector<uint16_t> instr_lines;
+    uint16_t instruction_code = 0x00;
+
+    // beq and bne take two lines of instructions
+    uint16_t op = fetch_op(assembly_line);
+    instruction_code |= (op << 12);
+
+    uint16_t instruction_12_to_0 = fetch_non_op(op, assembly_line);
+    instruction_code |= instruction_12_to_0;
+    // add first line to vector
+    instr_lines.push_back(instruction_code);
+
+    std::vector<std::string> ls = line_split(assembly_line);
+
+    // line to jump will always be at element 3
+    uint16_t instruction_two = std::stoi(ls[3]);
+    // add second line to vector
+    instr_lines.push_back(instruction_two);
+
+    return instr_lines;
+}
+
 std::vector<std::string> Assembler::line_split(std::string assembly_line){
     // helper function to split the line of assembly
     std::vector<std::string> asmb_components;
@@ -88,10 +112,10 @@ uint16_t Assembler::fetch_op(std::string assembly_line){
     else if(op == "jmp"){
         return 0xD;
     }
-    else if(op == "jz"){
+    else if(op == "beq"){
         return 0xE;
     }
-    else if(op == "jnz"){
+    else if(op == "bne"){
         return 0xF;
     }   
     // If error case
@@ -178,19 +202,22 @@ uint16_t Assembler::fetch_non_op(uint16_t op, std::string assembly_line){
             instr |= fetch_imm(asmb_components.at(3));
             return instr;
         case(0xD):
-            // TODO
             // jmp
-
+            instr |= fetch_jmp(asmb_components.at(1));
             return instr;
         case(0xE):
-            // TODO
-            // jz
-
+            // beq
+            // rega bits 11:8 
+            // regb bits 7:4
+            instr |= (fetch_rs(asmb_components.at(1), 'n') << 8);
+            instr |= (fetch_rs(asmb_components.at(2), 'n') << 4);
             return instr;
         case(0xF):
-            // TODO
-            // jnz
-
+            // bne
+            // rega bits 11:8 
+            // regb bits 7:4
+            instr |= (fetch_rs(asmb_components.at(1), 'n') << 8);
+            instr |= (fetch_rs(asmb_components.at(2), 'n') << 4);
             return instr;
         default:
             //error 
@@ -210,6 +237,10 @@ uint16_t Assembler::fetch_rs(std::string reg, char type){
         bit_shift = 4;
     }
     else if(type == 'b'){
+        bit_shift = 0;
+    }
+    // type n for no shifts
+    else if(type == 'n'){
         bit_shift = 0;
     }
     else{
@@ -254,3 +285,8 @@ uint16_t Assembler::fetch_mem(std::string mem){
     // error return
     return 0xFFFF;
 };
+
+uint16_t Assembler::fetch_jmp(std::string line){
+// decode the memory line to jump to
+    return (uint16_t) std::stoi(line);
+}

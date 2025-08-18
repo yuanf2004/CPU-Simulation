@@ -20,6 +20,8 @@ public:
 
     uint16_t generate_instruction_code(std::string assembly_line);
 
+    std::vector<uint16_t> generate_instruction_code_branch(std::string assembly_line);
+
     std::vector<std::string> line_split(std::string assembly_line);
 
     std::vector<std::string> assembly_split(std::string fpath);
@@ -37,6 +39,8 @@ public:
     uint16_t fetch_imm(std::string imm);
 
     uint16_t fetch_mem(std::string imm);
+
+    uint16_t fetch_jmp(std::string line);
 };
 
 #endif

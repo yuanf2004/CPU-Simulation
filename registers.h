@@ -30,15 +30,6 @@ class ProgramCounter{
         void reset_address(void);
 };
 
-class ZeroRegister{
-    private:
-        uint16_t flag;
-    public:
-        uint16_t get_flag(void);
-        void set_flag(uint16_t set);
-        void reset_flag(void);
-};
-
 class Registers{
 
 private:
@@ -69,7 +60,7 @@ public:
     void update_general_purpose_register(uint16_t reg, uint16_t data);
     void clear_all_general_purpose_registers(void);
     void clear_instruction_register(void);
-    void clear_program_counter(uint16_t addr);
+    void clear_program_counter(void);
     void update_program_counter(uint16_t addr);
     uint16_t get_program_counter(void);
     void update_instruction_register(uint16_t data);
