@@ -30,11 +30,13 @@ For the **continuous loop program**, each line input will take one of four **arg
 * [3] "memlocX" command, replace X with a number to see the value in memory location X. The range is 0 to 65535
 * [4] "exit" command goes back to the main menu
 
-![Continuous Loop Example](readme_img/contloopexample.png)
+![Continuous Loop Example](readme_img/contloopexample.png)<br>
+_Continous Loop Program Run Example_
   
 For the **Assembly program**, it will take all of the same arguments above ⬆️ except for the Assembly instruction. 
 
-![Assembly Example](readme_img/assemblyexample.png)
+![Assembly Example](readme_img/assemblyexample.png)<br>
+_Assembly Program Run Example_
 
 ---
 
