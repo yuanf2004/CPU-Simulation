@@ -160,6 +160,7 @@
     //todo: just does not run at all.
 
     //  warning notice for code segment writing
+        std::cout << "\nAssembly file finished processing!\n\n";
         std::cout << "\nWARNING: Your code segment of the RAM goes from memloc0 to ";
         std::cout << "memloc" << asmb_lines.size()-1 << ". ";
         std::cout << "If your assembly overwrites any of these memory locations, ";
