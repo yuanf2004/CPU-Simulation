@@ -10,6 +10,7 @@
 #include <string>
 #include <iostream>
 #include <limits>
+#include <unordered_set>
 
 class CentralProcessingUnit{
 private:
@@ -18,6 +19,26 @@ private:
     ArithmeticLogicUnit alu;
     ControlUnit cu;
     Assembler asmb;
+    std::unordered_set<std::string> valid_ops = {
+        "load", 
+        "store",
+        "add",
+        "sub",
+        "and",
+        "or",
+        "xor",
+        "not",
+        "addi",
+        "subi",
+        "andi",
+        "ori",
+        "xori",
+        "jmp",
+        "beq",
+        "bne",
+        "rs",
+        "memloc"
+    };
     
 public: 
     CentralProcessingUnit();

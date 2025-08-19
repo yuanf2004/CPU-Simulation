@@ -37,6 +37,20 @@
                     buffer_split.push_back(word);
                 }
 
+                // error handling for invalid commands
+                std::string first_op;
+                for(char c : buffer_split[0]){
+                    if(std::isalpha(c)){
+                        first_op += c;
+                    }
+                }
+
+                // error handling for invalid commands
+                if(valid_ops.find(first_op) == valid_ops.end()){
+                    std::cout << "Invalid command, exiting...\n";
+                    return;
+                }
+
                 // split up the memory type (reg/memloc) with the index
                 std::string memory_index;
                 std::string memory_type;
@@ -56,11 +70,19 @@
                 // return memory data if index and type are populated
                 if(!memory_index.empty() && !memory_type.empty()){
                     if(memory_type == "rs"){
+                        if(std::stoi(memory_index) > 31){
+                            std::cout << "Invalid register number!\n";
+                            return;
+                        }
                         uint16_t reg_value = r.get_data_general_purpose_register(std::stoi(memory_index));
                         std::cout << "Register " + memory_index + "'s value is: ";
                         std::cout << reg_value << "\n";
                     }
                     else if(memory_type == "memloc"){
+                        if(std::stoi(memory_index) > 65535){
+                            std::cout << "Invalid memory location number!\n";
+                            return;
+                        }
                         uint16_t memloc_value = ram.get_ramcell(std::stoi(memory_index));
                         std::cout << "Memory location " + memory_index + "'s value is: ";
                         std::cout << memloc_value << "\n";
@@ -126,7 +148,7 @@
             std::vector<uint16_t> many_instr_v;
 
             uint16_t opcode = r.get_instruction_register() >> 12;
-            if(opcode == 0xE | opcode == 0xF){
+            if(opcode == 0xE || opcode == 0xF){
                 // add first instruction
                 many_instr_v.push_back(r.get_instruction_register());
                 // update and fetch second instruction, 16 bit jmp instr
@@ -185,7 +207,7 @@
             std::string memory_type;
 
             // split the instruction into memory type and index
-            if(!decision.find("rs") | !decision.find("memloc")){
+            if(decision.find("rs") != decision.npos || decision.find("memloc") != decision.npos){
                 for(char c : decision){
                     if(std::isdigit(c)){
                         memory_index += c;
@@ -197,11 +219,19 @@
 
                 // view register
                 if(memory_type == "rs"){
+                    if(std::stoi(memory_index) > 31){
+                        std::cout << "Invalid register number!\n";
+                        return;
+                    }
                     std::cout << "Register " + memory_index + " holds: ";
                     std::cout << r.get_data_general_purpose_register(std::stoi(memory_index)) << "\n";
                 }
                 // view memory location
                 else if(memory_type == "memloc"){
+                    if(std::stoi(memory_index) > 65535){
+                        std::cout << "Invalid memory location number!\n";
+                        return;
+                    }
                     std::cout << "Memory location " + memory_index + " holds: ";
                     std::cout << ram.get_ramcell(std::stoi(memory_index)) << "\n";
                 }
@@ -234,7 +264,7 @@
             std::string s = asmb_lines[i];
 
             // handle double instruction add if beq or bne
-            if(s.find("beq") != s.npos | s.find("bne") != s.npos){
+            if(s.find("beq") != s.npos || s.find("bne") != s.npos){
                 std::vector<uint16_t> buffer = asmb.generate_instruction_code_branch(s);
                 for(uint16_t i : buffer){
                     instruction_vector.push_back(i);
@@ -267,7 +297,7 @@
             std::vector<uint16_t> many_instr_v;
 
             uint16_t opcode = r.get_instruction_register() >> 12;
-            if(opcode == 0xE | opcode == 0xF){
+            if(opcode == 0xE || opcode == 0xF){
                 // add first instruction
                 many_instr_v.push_back(r.get_instruction_register());
                 // update and fetch second instruction, 16 bit jmp instr
