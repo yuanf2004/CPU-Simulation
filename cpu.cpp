@@ -144,8 +144,15 @@
 
             // normal operation decoding 
             if(many_instr_v.empty()){
-               cu.decode_instruction(r.get_instruction_register()); 
-               r.update_program_counter(program_counter+1);
+                // if not jmp, update pc
+                if(r.get_instruction_register() >> 12 != 0xD){
+                    cu.decode_instruction(r.get_instruction_register());
+                    r.update_program_counter(program_counter+1);
+                }
+                // if jmp, don't update pc
+                else{
+                    cu.decode_instruction(r.get_instruction_register()); 
+                }
             }
             // beq/bne operation decoding
             else{
@@ -211,7 +218,7 @@
         }
     };
 
-    uint16_t CentralProcessingUnit::test_run_assembly_file(std::string assembly_fpath){
+    uint16_t CentralProcessingUnit::test_run_assembly_file(std::string assembly_fpath, std::string optype){
         // run assembly file
        
         // NOTE: Assembly path is from the root of the project so it will always
@@ -277,8 +284,15 @@
 
             // normal operation decoding 
             if(many_instr_v.empty()){
-               cu.decode_instruction(r.get_instruction_register()); 
-               r.update_program_counter(program_counter+1);
+                // if not jmp, update pc
+                if(r.get_instruction_register() >> 12 != 0xD){
+                    cu.decode_instruction(r.get_instruction_register());
+                    r.update_program_counter(program_counter+1);
+                }
+                // if jmp, don't update pc
+                else{
+                    cu.decode_instruction(r.get_instruction_register()); 
+                }
             }
             // beq/bne operation decoding
             else{
@@ -287,9 +301,18 @@
             }
         }
 
-        // should be returning 10 if the beq worked properly
-        uint16_t rs5 = r.get_data_general_purpose_register(5);
-        return rs5;
+        // rs5 here should return as 10 based on "test_beqbne.txt"
+        if(optype == "beq"){
+            uint16_t rs5 = r.get_data_general_purpose_register(5);
+            return rs5;
+        }
+        // rs0 here should return as 3 based on "test_jmp.txt"
+        else if(optype == "jmp"){
+            uint16_t rs0 = r.get_data_general_purpose_register(0);
+            return rs0;
+        }
+        else{
+            return 0;
+        }
     }
-
 

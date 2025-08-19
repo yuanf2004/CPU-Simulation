@@ -1,4 +1,4 @@
-beq rs1 rs1 4
+jmp 4
 addi rs0 rs0 1
 addi rs0 rs0 2
-addi rs5 rs0 8
+addi rs0 rs0 3

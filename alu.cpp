@@ -77,8 +77,8 @@
 
     void ArithmeticLogicUnit::alu_jmp(uint16_t jmpdest){
         // set the program counter to input address
-        r->update_program_counter(jmpdest);
-
+        // *note: -1 is to adjust for the line to ram location since it starts at 0
+        r->update_program_counter(jmpdest-1);
     };
 
     void ArithmeticLogicUnit::alu_beq(uint16_t rega, uint16_t regb, uint16_t jmpdest){
@@ -87,7 +87,7 @@
 
         // jump if equal
         if(rega_val == regb_val){
-            r->update_program_counter(jmpdest);
+            r->update_program_counter(jmpdest-1);
         }
     };
 
@@ -97,7 +97,7 @@
 
         // jump if not equal
         if(rega_val != regb_val){
-            r->update_program_counter(jmpdest);
+            r->update_program_counter(jmpdest-1);
         }
     };
 

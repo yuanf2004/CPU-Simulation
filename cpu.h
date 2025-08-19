@@ -23,7 +23,7 @@ public:
     CentralProcessingUnit();
     void run_continuous_loop(void);
     void run_assembly_file(std::string assembly_fpath);
-    uint16_t test_run_assembly_file(std::string assembly_fpath);
+    uint16_t test_run_assembly_file(std::string assembly_fpath, std::string optype);
 };
 
 #endif
