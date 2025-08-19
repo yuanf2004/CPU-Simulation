@@ -29,8 +29,12 @@ For the **continuous loop program**, each line input will take one of four **arg
 * [2] "rsX" command, replace X with a number see the value in register X. The range is 0 to 31 (32 registers)
 * [3] "memlocX" command, replace X with a number to see the value in memory location X. The range is 0 to 65535
 * [4] "exit" command goes back to the main menu
+
+![Continuous Loop Example](readme_img/contloopexample.png)
   
 For the **Assembly program**, it will take all of the same arguments above ⬆️ except for the Assembly instruction. 
+
+![Assembly Example](readme_img/assemblyexample.png)
 
 ---
 
