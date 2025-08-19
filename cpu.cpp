@@ -5,6 +5,8 @@
         :alu(&r, &ram), cu(&r, &ram, &alu)
     {};
 
+    //this feature does not support jmp, beq, and bne
+
     void CentralProcessingUnit::run_continuous_loop(void){
         // Run the CPU by giving it inputs
         //bool decode_ok = false;
@@ -27,8 +29,7 @@
             }
 
             if(!buffer_i.empty()){
-                // use a vector to determine if user instruction,
-                // mem and register checking is only one word
+                // use a vector to determine if user instruction 
                 std::vector<std::string> buffer_split;
                 std::stringstream iss(buffer_i);
                 std::string word;
@@ -66,14 +67,8 @@
                     }
                 }
             
-                if(buffer_split[0] == "beq" | buffer_split[0] == "bne"){
-                    std::vector<uint16_t> instrs = asmb.generate_instruction_code_branch(buffer_i);
-                    cu.decode_instruction(instrs);
-                }
-                else{
-                    uint16_t instr = asmb.generate_instruction_code(buffer_i);
-                    cu.decode_instruction(instr);
-                }
+                uint16_t instr = asmb.generate_instruction_code(buffer_i);
+                cu.decode_instruction(instr);
             } 
         }
     };

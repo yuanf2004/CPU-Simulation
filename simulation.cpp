@@ -4,7 +4,7 @@ void Simulation::setting(void){
 // Setting menu
     int setting_choice;
     std::cout << "Settings\n";
-    std::cout <<"[1] Program Type\n[2] Select Assembly File\n";
+    std::cout <<"[1] Program Type\n[2] Select Assembly File\n[3] Main Menu\n";
     std::cin >> setting_choice;
 
     if(setting_choice == 1){
@@ -12,6 +12,10 @@ void Simulation::setting(void){
     }
     else if(setting_choice == 2){
         choose_assembly_file();
+    }
+    else if(setting_choice == 3){
+        std::cout << "Returning to the main menu...\n";
+        return;
     }
     else{
         std::cout << "Invalid choice.\n";
@@ -24,11 +28,14 @@ void Simulation::change_program_type(void){
     std::string program_type_text;
     int program_type_buffer;
     
-    if(program_type == 0){
+    if(program_type == 1){
         program_type_text = "Continuous Loop";    
     }
-    else{
+    else if(program_type == 0){
         program_type_text = "Assembly File";
+    }
+    else{
+        program_type_text = "Error";
     }
 
     std::cout << "Current Program Type: " + program_type_text + "\n";
